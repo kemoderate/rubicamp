@@ -1,19 +1,23 @@
-function stringmanipulation(n){ 
-let hasilakhir = ''
-let vokal = [a,i,u,e,o]
-let konsonal = [b, c, d, f, 
-                g, h, j, k, l, m, n, 
-                p, q, r, s, t, v, w, x, y, z]
-
-
-        console.log(n)
-       
-
+function stringmanipulation(word) {
+    let variasi = word.charAt(0)
+    let hasil = ""     
+    switch (hasil) {
+        case "a":
+            console.log(word);
+        case "i" :
+            console.log(word);
+        case "u" :
+            console.log(word);
+        case "e" :
+            console.log(word);
+        case "o" :
+            console.log(word);
+        default:
+           console.log((word.substr(1) + variasi + 'nyo'))
+            break;
     }
+
+}
 
 stringmanipulation('ayam');
 stringmanipulation('bebek');
-
-
-
-
