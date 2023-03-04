@@ -1,17 +1,15 @@
 function stringmanipulation(word) {
     let variasi = word.charAt(0)
-    let hasil = ""     
-    switch (hasil) {
+    let huruf = word[0]
+         
+    switch (huruf) {
         case "a":
-            console.log(word);
         case "i" :
-            console.log(word);
         case "u" :
-            console.log(word);
         case "e" :
-            console.log(word);
         case "o" :
             console.log(word);
+            break;
         default:
            console.log((word.substr(1) + variasi + 'nyo'))
             break;
