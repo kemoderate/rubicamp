@@ -27,6 +27,7 @@ function sentenceManipulation(word) {
     }
   }
   console.log(hasil.join(" "));
+  console.log('hasil')
 }
 
 rl.question("Enter a sentence: ", function (sentence) {
