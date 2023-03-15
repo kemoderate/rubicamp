@@ -1,57 +1,49 @@
-function spiral(size) {
-  const matriks = [];
+function spiralMatrix(n) {
+  let result = []
   let hitung = 0;
 
-  for (let i = 0; i < size; i++) {
-    matriks[i] = []
-    for (let j = 0; j < size; j++) {
-      matriks[i][j] = hitung
+  for (let i = 0; i < n; i++) {
+    result[i] = [];
+    // console.log(result)
+    for (let j = 0; j < n; j++) {
+      result[i][j] = hitung;
       hitung++
     }
+    // return spiralMatrix(result);
   }
+  // console.log(result)
+  // console.log(result[0][4])
+  // console.log(result[1][4])
+  // console.log(result[2][4])
+  // console.log(result[3][4])
+  console.log(result[4][4])
 
-    let x = 0;
-    let y = 0;
-    let batasAtas = size;
-    let batasBawah = 0;
-    let result = [];
+   let x = 0;
+   let y = 0;
 
-    while (result.length < size * size) {
-      // ke kanan
-      while (x < batasAtas) {
-        result.push(matriks[y][x]);
-        x++;
-      }
-      x--;
-      y++;
-      // ke bawah
-      while (y < batasAtas) {
-        result.push(matriks[y][x]);
-        y++;
-      }
-      // ke kiri
-      y--;
-      x--;
-      while (x >= batasBawah) {
-        result.push(matriks[y][x]);
-        x--;
-      }
-      // ke atas
-      x++;
-      y--;
-      while (y > batasBawah) {
-        result.push(matriks[y][x]);
-        y--;
-      }
-      x++;
-      y++;
-      batasAtas--;
-      batasBawah++;
-    }
-
-    console.log(result);
+// ke kanan 
+  for (let i = x; x < n; x++){
+    // console.log(y,x)
   }
+  x--
+  y++
+  // ke bawah
+  for(let i = y; y < n; y++){
+    // console.log(y,x)
+  }
+  y--
+  x--
+  for(let i = y ;y > n; y--){
+    console.log(y,x)
+  }
+  
 
-  spiral(5);
-  spiral(6);
-  spiral(7);
+      
+      
+    
+    
+  
+
+}
+spiralMatrix(5);
+
