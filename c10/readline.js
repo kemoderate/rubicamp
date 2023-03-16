@@ -1,4 +1,10 @@
 const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt:'tulis kalimatmu disini > '
+});
+
 
 function sentenceManipulation(word) {
   let vokal = ['a', 'i', 'u', 'e', 'o']
@@ -20,25 +26,15 @@ function sentenceManipulation(word) {
       hasil.push(konsonan)
     }
   }
-  console.log(hasil.join(" "));
-
+  console.log(`Hasil Konversi: ${hasil.join(" ")}`);
+  rl.prompt('tulis kalimatmu disini > ')
 }
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-function start() {
-  rl.question("tulis kalimatmu disini: ", function (input) {
-    if (input.toLowerCase() === 'exit') {
-      console.log('Good Bye!')
-      rl.close();
-    } else {
-    console.log("hasil konversi: "),sentenceManipulation(input);
-      start();
-    }
-  });
-}
-
-start();
+rl.on('line', (input) => {
+  if (input === 'exit') {
+    console.log('Good bye!')
+    rl.close()
+  } else {
+    sentenceManipulation(input.toLowerCase())
+  }
+})
+rl.prompt();
