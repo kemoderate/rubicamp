@@ -1,25 +1,19 @@
 const readline = require('readline');
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
 function sentenceManipulation(word) {
-  let vokal = ['a', 'i', 'u', 'e', 'o'];
+  let vokal = ['a', 'i', 'u', 'e', 'o']
   let huruf = word.split(" ");
-  let hasil = [];
-
+  let hasil = []
   for (let i = 0; i < huruf.length; i++) {
-    if (huruf[i].charAt(0) == vokal[0]) {
+    if (huruf[i].charAt(0).toLowerCase() == vokal[0]) {
       hasil.push(huruf[i])
-    } else if (huruf[i].charAt(0) == vokal[1]) {
+    } else if (huruf[i].charAt(0).toLowerCase() == vokal[1]) {
       hasil.push(huruf[i])
-    } else if (huruf[i].charAt(0) == vokal[2]) {
+    } else if (huruf[i].charAt(0).toLowerCase() == vokal[2]) {
       hasil.push(huruf[i])
-    } else if (huruf[i].charAt(0) == vokal[3]) {
+    } else if (huruf[i].charAt(0).toLowerCase() == vokal[3]) {
       hasil.push(huruf[i])
-    } else if (huruf[i].charAt(0) == vokal[4]) {
+    } else if (huruf[i].charAt(0).toLowerCase() == vokal[4]) {
       hasil.push(huruf[i])
     } else {
       let konsonan = huruf[i].substring(1) + huruf[i].charAt(0) + 'nyo'
@@ -27,10 +21,24 @@ function sentenceManipulation(word) {
     }
   }
   console.log(hasil.join(" "));
-  console.log('hasil')
+
 }
 
-rl.question("Enter a sentence: ", function (sentence) {
-  sentenceManipulation(sentence);
-  rl.close();
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
 });
+
+function start() {
+  rl.question("tulis kalimatmu disini: ", function (input) {
+    if (input.toLowerCase() === 'exit') {
+      console.log('Good Bye!')
+      rl.close();
+    } else {
+    console.log("hasil konversi: "),sentenceManipulation(input);
+      start();
+    }
+  });
+}
+
+start();
