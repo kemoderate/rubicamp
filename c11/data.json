@@ -1,5 +1,4 @@
-[  
-    { "pertanyaan": "Siapakah presiden kita saat ini ? ",              "jawaban": "Jokowi"  },  
-    { "pertanyaan": "Tahun berapa Indonesia merdeka ?",           "jawaban": "1945"},  
-    { "pertanyaan": "sebutkan kota yang memiliki julukan kota intan" ,     "jawaban": "Garut"  }
+[{"definition": "siapa presiden indonesia?", "term": "jokowi"}, 
+{"definition": "kapan indonesia merdeka?", "term": "1945"},
+{"definition": "sebutkan kota yang dijuluki kota intan? ", "term": "Garut"}
 ]
