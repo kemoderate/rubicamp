@@ -1,36 +1,40 @@
 const readline = require('readline');
 const fs = require('fs');
+
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    prompt: 'tebakan: '
+  input: process.stdin,
+  output: process.stdout,
+  prompt: 'tebakan: '
 });
-let soal = [];
 
-function load(soal) {
-    const data = fs.readFileSync('data.json');
-    soal = JSON.parse(data);
-}
+fs.readFile('data.json', (err, data) => {
+  if (err) throw err;
+  const quizData = JSON.parse(data);
 
-function save(jawaban) {
-    const data = {
-        pertanyaan: soal.pertanyaan,
-        jawaban: jawaban
-    };
-    const jsonData = JSON.stringify(data,2);
-    fs.appendFileSync('data.json', jsonData);
-}
+  let questionIndex = 0;
+  let correctAnswers = 0;
 
+  console.log(' Selamat datang di permainan Tebak Kata ');
+  console.log('Silakan jawab pertanyaan berikut dengan benar');
 
-rl.on('line', (input) => {
-    if (input === 'exit') {
-        console.log('Hore Anda Menang!')
-        rl.close()
+  console.log(`Pertanyaan: ${quizData[questionIndex].definition}`);
+  rl.prompt();
+
+  rl.on('line', (answer) => {
+    if (answer.toLowerCase() === quizData[questionIndex].term.toLowerCase()) {
+      console.log('Selamat, Anda benar!');
+      correctAnswers++;
+      questionIndex++;
     } else {
-
+      console.log('Wkwkwk, Anda kurang beruntung!');
     }
-})
-load();
-rl.prompt();
-
-
+    
+    if (questionIndex < quizData.length) {
+      console.log(`Pertanyaan: ${quizData[questionIndex].definition}`);
+      rl.prompt();
+    } else {
+      console.log(`hore anda menang!`);
+      rl.close();
+    }
+  });
+});
