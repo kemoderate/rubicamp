@@ -1,64 +1,46 @@
 const readline = require('readline');
 const fs = require('fs');
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  prompt: 'Jawaban: '
-});
+if (process.argv[2] !== 'data.json') {
+    console.log(`tolong sertakan nama file sebagai inputan soal misalnya 'node solution.js data.json'`);
+    process.exit();
+} else {
+    const data = fs.readFileSync('data.json');
+    const quizData = JSON.parse(data);
 
-fs.readFile('data.json', (err, data) => {
-  if (err) throw err;
-  let quizData = JSON.parse(data);
-  let skippedQuestions = [];
+    let i = 0;
+    let wrongAnswer = 1;
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        prompt: 'Jawaban : '
+    });
 
-  console.log('Selamat datang di permainan Tebak Kata!');
-  console.log('Silakan jawab pertanyaan berikut dengan benar.');
-
-  let askQuestion = (questionIndex) => {
-    console.log(`Pertanyaan: ${quizData[questionIndex].definition}`);
+    console.log(`Selamat datang di permainan tebak kata. kamu akan di berikan pertanyaan dari file ini'data.json'.untukbermain,jawablah dengan jawaban yang sesuai.gunakan'skip' untuk menangguhkan pertanyaannya,dan di akhir pertanyaan akan ditanyakan lagi`);
+    console.log(`Pertanyaan: ${quizData[i].definition}`);
     rl.prompt();
-  }
-
-  let questionIndex = 0;
-  let wrongAnswers = 0;
-  let correctAnswers = 0;
-
-  askQuestion(questionIndex);
-
-  rl.on('line', (answer) => {
-    if (answer.toLowerCase() === 'skip') {
-      skippedQuestions.push(quizData[questionIndex]);
-      questionIndex++;
-      if (questionIndex < quizData.length) {
-        askQuestion(questionIndex);
-      }
-    } else if (answer.toLowerCase() === quizData[questionIndex].term.toLowerCase()) {
-      console.log('Anda Beruntung!');
-      questionIndex++;
-      correctAnswers++;
-      if (questionIndex < quizData.length) {
-        askQuestion(questionIndex);
-      }
-    } else {
-      console.log(`Anda kurang beruntung! Anda telah salah ${++wrongAnswers} kali.`);
-    }
-
-    if (questionIndex >= quizData.length) {
-      if (skippedQuestions.length > 0) {
-        console.log('Pertanyaan yang terlewati:');
-        skippedQuestions.forEach((question) => {
-          console.log(`- ${question.definition}`);
-          quizData.push(question);
-        });
-        fs.writeFile('data.json', JSON.stringify(quizData), (err) => {
-          if (err) throw err;
-          console.log('Pertanyaan yang terlewati telah ditambahkan ke data.json.');
-        });
-        skippedQuestions = [];
-      }
-      console.log(`Anda Berhasil !`);
-      
-    }
-  });
-});
+    rl.on('line', function (answer) {
+        if (answer.toLowerCase() == quizData[i].term) {
+            console.log('Jawaban anda benar')
+            i++;
+            wrongAnswer = 1;
+            if (i == quizData.length) {
+                console.log('Selamat anda jadi Pemenang!!!');
+                process.exit();
+            }
+            console.log("Pertayaan: " + quizData[i].definition);
+            rl.prompt();
+        }
+        else if (answer.toLocaleLowerCase() == 'skip') {
+            quizData.push(quizData[i]);
+            i++
+            console.log("Pertanyaan: " + quizData[i].definition);
+            rl.prompt();
+        }
+        else {
+            console.log(`Wkwkwkwk anda kurang beruntung ${wrongAnswer} kali`);
+            wrongAnswer++;
+            rl.prompt();
+        }
+    });
+}
