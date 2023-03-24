@@ -35,10 +35,10 @@ function showList() {
     console.log(`${i + 1}.[${taskData[i].status ? 'X' : ' '}] ${taskData[i].task_content}`);
   }
 }
-function showTask(){
-  for(let i = 0; i <taskData.length; i++)
-    console.log(`task_id : ${i+1}.[${taskData[i].status ? 'X': ' '}] ${taskData[i].task_content}`);
-  }
+function showTask() {
+  for (let i = 0; i < taskData.length; i++)
+    console.log(`task_id : ${i + 1}.[${taskData[i].status ? 'X' : ' '}] ${taskData[i].task_content}`);
+}
 
 
 function completeTask() {
@@ -58,9 +58,11 @@ function uncompleteTask() {
 
 
 
+const args0 = process.argv
 const args = process.argv.slice(2);
 const command = args[0];
 const args1 = process.argv[3]
+const args2 = process.argv[2]
 let content = args.slice(1).join(" ")
 const commandList = ` >>> JS TODO <<< 
  $node todo.js <command>
@@ -74,67 +76,92 @@ const commandList = ` >>> JS TODO <<<
  $node todo.js list:completed asc|desc
  $node todo.js tag <task_id> <tag_name_1> <tag_name_2> ... <tag_name_N>");
  $node todo.js filter:<tag_name>`
-
-switch (command) {
-  case "help":
-    console.log(commandList)
-    break;
-  case "list":
-    console.log("Daftar Pekerjaan");
-    showList();
-    break;
-  case "task":
-  showTask();
+if (command === undefined) {
+  console.log(commandList)
+} else {
+  switch (command) {
+    case "help":
+      console.log(commandList)
       break;
-  case "add":
-    addTask();
-    console.log(`"${content}" telah di tambahkan. `);
-    break;
-  case "delete":
-    deleteTask();
-    // console.log(`"${dataItem.task_content}" telah di hapus dari daftar`);
-    break;
-  case "complete":
-    completeTask();
-    break;
-  case "uncomplete":
-    uncompleteTask();
-    break;
+    case "list":
+      console.log("Daftar Pekerjaan");
+      showList();
+      break;
+    case "task":
+      showTask();
+      break;
+    case "add":
+      addTask();
+      console.log(`"${content}" telah di tambahkan. `);
+      break;
+    case "delete":
+      deleteTask();
+      // console.log(`"${dataItem.task_content}" telah di hapus dari daftar`);
+      break;
+    case "complete":
+      completeTask();
+      break;
+    case "uncomplete":
+      uncompleteTask();
+      break;
     case "list:outstanding":
-      switch(args1) {
+      switch (args1) {
         case "asc":
           console.log("Daftar Pekerjaan");
           for (let i = 0; i < taskData.length; i++) {
             if (taskData[i].status === false) {
               console.log(`${i + 1}.[ ]${taskData[i].task_content}`);
             }
-          }break;
+          } break;
         case "desc":
           console.log("Daftar Pekerjaan");
           for (let j = taskData.length - 1; j >= 0; j--) {
             if (taskData[j].status === false) {
-              console.log(`${j+1}.[ ]${taskData[j].task_content}`);
+              console.log(`${j + 1}.[ ]${taskData[j].task_content}`);
             }
           }
           break;
       }break;
-  case "list:completed":
-    
-    break;
-  case "tag":
-    let indexTags = parseInt(args2) - 1;
-    let words = '';
-    let tags = taskData[indexTags].tag;
-    let tag = taskData[indexTags];
-    for (let i = 4; i < args.length; i++) {
-      tags.push(args[i]);
-      console.log(args[i])
-      words += args[i] + ' ';
-    }   
-    fs.writeFileSync('data.json', JSON.stringify(taskData, null, 4));
-    console.log(`Tags '${words.trim()}' telah ditambahkan ke daftar ${tag.task_content}`);
-    break;
-  default:
-    console.log(commandList)
-    break;
+    case "list:completed":
+      switch (args1) {
+        case "asc":
+          console.log("Daftar Pekerjaan");
+          for (let i = 0; i < taskData.length; i++) {
+            if (taskData[i].status === true) {
+              console.log(`${i + 1}.[X]${taskData[i].task_content}`);
+            }
+          } break;
+        case "desc":
+          console.log("Daftar Pekerjaan");
+          for (let j = taskData.length - 1; j >= 0; j--) {
+            if (taskData[j].status === true) {
+              console.log(`${j + 1}.[X]${taskData[j].task_content}`);
+            }
+          }
+          break;
+      }break;
+    case "tag":
+      let indexTags = parseInt(args1) - 1;
+      let words = '';
+      let tags = taskData[indexTags].tag;
+      let tag = taskData[indexTags];
+      for (let i = 4; i < args0.length; i++) {
+        tags.push(args0[i]);
+        console.log(args0[i])
+        words += args0[i] + ' ';
+      }
+      fs.writeFileSync('tasks.json', JSON.stringify(taskData, null, 4));
+      console.log(`Tags '${words.trim()}' telah ditambahkan ke task ${tag.task_content}`);
+      break;
+    default:
+      const filter = args2.split(':')
+      if (filter[0] === 'filter') {
+        for (let i = 0; i < taskData.length; i++) {
+          if (taskData[i].tag.includes(filter[1])) {
+            console.log(`${i + 1}.[${taskData[i].status ? 'X' : ' '}] ${taskData[i].task_content}`);
+          }
+        }
+      }
+      break;
+  }
 }

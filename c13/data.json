@@ -1,0 +1,43 @@
+[
+    {
+        "task_id": null,
+        "task_content": "saya akan ke pasar",
+        "status": false,
+        "tag": []
+    },
+    {
+        "task_id": null,
+        "task_content": "saya akan pergi belanja",
+        "status": false,
+        "tag": []
+    },
+    {
+        "task_id": null,
+        "task_content": "saya akan mengerjakan PR",
+        "status": false,
+        "tag": []
+    },
+    {
+        "task_id": null,
+        "task_content": "saya ingin pergi ke konser",
+        "status": false,
+        "tag": []
+    },
+    {
+        "task_id": null,
+        "task_content": "saya ingin pergi ke pasar",
+        "status": false,
+        "tag": [
+            "masak",
+            null,
+            "air",
+            null
+        ]
+    },
+    {
+        "task_id": null,
+        "task_content": "saya pergi memasak",
+        "status": false,
+        "tag": []
+    }
+]
