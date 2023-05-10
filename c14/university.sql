@@ -45,6 +45,8 @@ CREATE TABLE takes (
     FOREIGN KEY(id_matakuliah) REFERENCES matakuliah(id_matakuliah)
 );
 
+INSERT INTO takes (id_pengampu)
+VALUES('001')
     
 
 
