@@ -103,16 +103,16 @@ umur < 20;
 ALTER TABLE mata_kuliah ADD COLUMN nilai;
 
 INSERT INTO krs(nim,nip,id_matakuliah,nilai,sks)
-VALUES  ('m01','D01','MK001','A',3);
+VALUES  ('m01','D02','MK001','A',3);
 
 INSERT INTO krs(nim,nip,id_matakuliah,nilai,sks)
-VALUES  ('m02','D01','MK001','B',3);
+VALUES  ('m02','D02','MK001','B',3);
 
 INSERT INTO krs(nim,nip,id_matakuliah,nilai,sks)
-VALUES  ('m03','D01','MK001','B',3);
+VALUES  ('m03','D02','MK001','B',3);
 
 INSERT INTO krs(nim,nip,id_matakuliah,nilai,sks)
-VALUES  ('m04','D01','MK001','C',3); 
+VALUES  ('m04','D02','MK001','C',3); 
 
 SELECT 
    id_pengampu,
@@ -126,11 +126,10 @@ WHERE
    nilai <= 'B';
 --4 tampilkan mahasiswa yang memiliki jumlah sks lebih dari 10
 
-UPDATE krs SET sks = '10' WHERE id_pengampu = 1;
-
-UPDATE krs SET sks = '11' WHERE id_pengampu = 2;
-
-UPDATE krs SET sks = '12' WHERE id_pengampu = 3;
+SELECT mahasiswa.*,(mata_kuliah.sks) AS total_sks
+FROM mahasiswa LEFT JOIN krs ON mahasiswa.nim = krs.nim
+LEFT join mata_kuliah ON krs.id_matakuliah = mata_kuliah.id_matakuliah
+GROUP BY mahasiswa.nim HAVING  sum(total_sks) > 10;
 
 SELECT 
    id_pengampu,
@@ -151,10 +150,10 @@ JOIN mata_kuliah ON krs.id_matakuliah = mata_kuliah.id_matakuliah
 WHERE mata_kuliah.nama_MK = 'data mining';
 
 --6. tampilkan jumlah mahasiswa setiap dosen
-SELECT krs.nip,dosen.nama_dosen,count (mahasiswa.nama) total_mahasiswa
-FROM mahasiswa
-INNER JOIN krs ON mahasiswa.nim = krs.nim
-JOIN dosen ON krs.nip = dosen.nip
+SELECT dosen.*, COUNT(DISTINCT(mahasiswa.nim))
+AS jumlah_mhs
+FROM dosen LEFT JOIN krs ON dosen.nip = krs.nip 
+LEFT JOIN mahasiswa ON mahasiswa.nim = krs.nim
 GROUP BY dosen.nip;
 
 --7. urutkan mahasiswa berdasarkan umurnya
@@ -172,16 +171,16 @@ JOIN dosen ON dosen.nip = krs.nip;
 
 -- menampilkan nilai dibawah C
 INSERT INTO krs(nim,nip,id_matakuliah,nilai,sks)
-VALUES  ('m01','D01','MK002','D',3);
+VALUES  ('m01','D02','MK003','D',3);
 
 INSERT INTO krs(nim,nip,id_matakuliah,nilai,sks)
-VALUES  ('m02','D01','MK002','E',3);
+VALUES  ('m02','D02','MK003','E',3);
 
 INSERT INTO krs(nim,nip,id_matakuliah,nilai,sks)
-VALUES  ('m03','D01','MK002','D',3);
+VALUES  ('m03','D02','MK003','D',3);
 
 INSERT INTO krs(nim,nip,id_matakuliah,nilai,sks)
-VALUES  ('m04','D01','MK002','E',3);
+VALUES  ('m04','D02','MK003','E',3);
 
 SELECT  mahasiswa.nama, umur, alamat, nilai, nama_dosen, mata_kuliah.nama_MK, nama_jurusan
 FROM mahasiswa 
