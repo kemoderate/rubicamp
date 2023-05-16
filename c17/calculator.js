@@ -22,24 +22,24 @@ divide(value){
     this.resultValue /= value;
     return this;
 }
-square(value){  
-    this.resultValue = Math.pow(value,2);
+square(){  
+    this.resultValue = this.resultValue ** 2;
     return this;
 }
 exponent(value){
-    this.resultValue = Math.pow(this.resultValue,value);
+    this.resultValue = this.resultValue ** value; 
     return this;
 }
-squareRoot(value){
-    this.resultValue = Math.sqrt(value);
+squareRoot(){
+    this.resultValue = Math.sqrt(this.resultValue);
     return this;
 }
 
 // tambahkan method lain yang perlu
 result(){
-return this.resultValue;
+console.log(this.resultValue)
+return this;
 }
 }
 
-const calc = new Calculator
 export {Calculator, PI}
