@@ -40,5 +40,6 @@ result(){
 return this.resultValue;
 }
 }
+
 const calc = new Calculator
-module.exports = Calculator,PI;
+export {Calculator, PI}
