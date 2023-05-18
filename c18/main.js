@@ -1,4 +1,11 @@
-const readline = require('readline');
+import { Jurusan } from "./jurusan.js"
+import { Mahasiswa } from "./mahasiswa.js"
+import { Dosen } from "./dosen.js"
+import { MataKuliah } from "./matakuliah.js"
+import { Kontrak } from "./kontrak.js"
+
+
+var readline = require('readline');
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -11,10 +18,14 @@ const users = {
     'rifqi': '1234'
 }
 
-console.log('=============================================================')
+function printPembatas() {
+    console.log('=============================================================')
+}
+
+printPembatas();
 console.log('Welcome to Universitas Pendidikan Indonesia')
 console.log('Jl.Setiabudhi No.255')
-console.log('=============================================================')
+printPembatas();
 
 rl.prompt();
 

@@ -7,15 +7,15 @@ class Dosen {
         let db = new sqlite3.Database('../c15/university.db');
         let sql = 'SELECT * FROM dosen';
         this.table = new Table({
-            head: ['nip', 'nama'],
-            colWidths: [50,100]
+            head: ['nip', 'nama_dosen'],
+            colWidths: [40,80]
         });
         db.all(sql, [], (err, rows) => {
             if (err) {
                 console.error(err);
             }
             for (let i = 0; i < rows.length; i++) {
-                this.table.push([rows[i].nip, rows[i].nama]);
+                this.table.push([rows[i].nip, rows[i].nama_dosen]);
             }
             console.log(this.table.toString());
             next();
@@ -28,10 +28,10 @@ class Dosen {
         db.get(sql, [nip], (err, row) => {
             try {
                 this.table = new Table({
-                    head: ['nip', 'nama', 'alamat', 'jurusan', 'birthdate'],
-                    colWidths: [10, 10, 20, 10, 20]
+                    head: ['nip', 'nama_dosen'],
+                    colWidths: [40,80]
                 });
-                this.table.push([row.nip, row.nama, row.alamat, row.jurusan, row.birthdate]);
+                this.table.push([row.nip, row.nama_dosen, row.alamat, row.jurusan, row.birthdate]);
                 console.log(this.table.toString());
             } catch (e) {
                 console.log(`dosen dengan nip ` + nip + ` tidak terdaftar`);
@@ -40,17 +40,17 @@ class Dosen {
         })
         db.close();
     }
-    addDosen(nip,nama,next) {
+    addDosen(nip,nama_dosen,next) {
         let db = new sqlite3.Database('../c15/university.db');
-        let sql = `INSERT INTO mahasiswa(nim,nama,alamat,jurusan,birthdate) VALUES (?,?,?,?,?)`;
-        let sql2 = `SELECT * FROM mahasiswa`;
-        db.run(sql,[nim,nama,alamat,jurusan,birthdate],(err) => {
+        let sql = `INSERT INTO dosen(nip,nama_dosen) VALUES (?,?)`;
+        let sql2 = `SELECT * FROM dosen`;
+        db.run(sql,[nip,nama_dosen],(err) => {
             if (err) {
                 console.error(err.message);
             }
             // console.log("A row has been successfully inserted.");
             this.table = new Table({
-                head: ['nim','nama','alamat','jurusan','birthdate'],
+                head: ['nip','nama_dosen'],
                 colWidths: [50,100]
             });
             db.all(sql2, [], (err,rows)=>{
@@ -58,7 +58,7 @@ class Dosen {
                     console.error(err);
                 }
                 for (let i=0;i<rows.length;i++) {
-                    this.table.push([rows[i].nim,rows[i].nama,rows[i].alamat,rows[i].jurusan,rows[i].birthdate]);
+                    this.table.push([rows[i].nip,rows[i].nama_dosen]);
                 }
                 console.log(this.table.toString());
                 next();
@@ -66,5 +66,18 @@ class Dosen {
         })
         db.close();
     }
-
+    deleteDosen(nip, next) {
+        let db = new sqlite3.Database('../c15/university.db');
+        let sql = 'DELETE FROM dosen WHERE nip = ?';
+        db.run(sql, nip, (err) => {
+            if (err) {
+                console.error(err.message);
+            }
+            console.log('Dosen dengan nip' + nip + 'telah terhapus');
+            next();
+        });
+        db.close();
+    }
 }
+
+export { Dosen };
