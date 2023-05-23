@@ -1,79 +1,79 @@
-const Table = require('cli-table')
-const sqlite3 = require('sqlite3').verbose();
+import Table from 'cli-table';
+import sqlite3 from 'sqlite3';
 
 class Matakuliah {
-    viewMatakuliah(next) {
+    static viewMatakuliah(next) {
         let db = new sqlite3.Database('../c15/university.db');
-        let sql = 'SELECT * FROM Matakuliah';
+        let sql = 'SELECT * FROM mata_kuliah';
         this.table = new Table({
-            head: ['id_Matakuliah', 'nama_mk'],
-            colWidths: [40,80]
+            head: ['id_matakuliah', 'nama_mk','sks'],
+            colWidths: [40, 80]
         });
         db.all(sql, [], (err, rows) => {
             if (err) {
                 console.error(err);
             }
             for (let i = 0; i < rows.length; i++) {
-                this.table.push([rows[i].id_Matakuliah, rows[i].nama_mk]);
+                this.table.push([rows[i].id_matakuliah, rows[i].nama_mk,rows[i].sks]);
             }
             console.log(this.table.toString());
-            next();
+            // next();
         });
         db.close();
     }
-    cariMatakuliah(id_Matakuliah, next) {
+    static cariMatakuliah(id_Matakuliah, next) {
         let db = new sqlite3.Database('../c15/university.db');
-        let sql = `SELECT * FROM Matakuliah WHERE id_Matakuliah = ?`;
+        let sql = `SELECT * FROM mata_kuliah WHERE id_matakuliah = ?`;
         db.get(sql, [id_Matakuliah], (err, row) => {
             try {
                 this.table = new Table({
-                    head: ['id_Matakuliah', 'nama_mk'],
-                    colWidths: [40,80]
+                    head: ['id_matakuliah', 'nama_mk'],
+                    colWidths: [40, 80]
                 });
-                this.table.push([row.id_Matakuliah, row.nama_mk, row.alamat, row.Matakuliah, row.birthdate]);
+                this.table.push([row.id_Matakuliah, row.nama_mk,row.sks]);
                 console.log(this.table.toString());
             } catch (e) {
-                console.log(`dosen dengan id_Matakuliah ` + id_Matakuliah + ` tidak terdaftar`);
+                console.log(`dosen dengan id_matakuliah ` + id_Matakuliah + ` tidak terdaftar`);
             }
-            next();
+            // next();
         })
         db.close();
     }
-    addMatakuliah(id_Matakuliah,nama_mk,next) {
+    static addMatakuliah(id_Matakuliah, nama_mk, next) {
         let db = new sqlite3.Database('../c15/university.db');
-        let sql = `INSERT INTO Matakuliah(id_Matakuliah,nama_mk) VALUES (?,?)`;
-        let sql2 = `SELECT * FROM Matakuliah`;
-        db.run(sql,[id_Matakuliah,nama_mk],(err) => {
+        let sql = `INSERT INTO mata_kuliah(id_matakuliah,nama_mk) VALUES (?,?)`;
+        let sql2 = `SELECT * FROM mata_kuliah`;
+        db.run(sql, [id_Matakuliah, nama_mk,sks], (err) => {
             if (err) {
                 console.error(err.message);
             }
             // console.log("A row has been successfully inserted.");
             this.table = new Table({
-                head: ['id_Matakuliah','nama_mk'],
-                colWidths: [50,100]
+                head: ['id_matakuliah', 'nama_mk'],
+                colWidths: [40, 50]
             });
-            db.all(sql2, [], (err,rows)=>{
+            db.all(sql2, [], (err, rows) => {
                 if (err) {
                     console.error(err);
                 }
-                for (let i=0;i<rows.length;i++) {
-                    this.table.push([rows[i].id_Matakuliah,rows[i].nama_mk]);
+                for (let i = 0; i < rows.length; i++) {
+                    this.table.push([rows[i].id_matakuliah, rows[i].nama_mk, rows[i].sks]);
                 }
                 console.log(this.table.toString());
-                next();
+                // next();
             })
         })
         db.close();
     }
-    deleteMatakuliah(id_Matakuliah, next) {
+    static deleteMatakuliah(id_matakuliah, next) {
         let db = new sqlite3.Database('../c15/university.db');
-        let sql = 'DELETE FROM Matakuliah WHERE id_Matakuliah = ?';
+        let sql = 'DELETE FROM mata_kuliah WHERE id_matakuliah = ?';
         db.run(sql, id_Matakuliah, (err) => {
             if (err) {
                 console.error(err.message);
             }
-            console.log('Matakuliah dengan id_Matakuliah' + id_Matakuliah + 'telah terhapus');
-            next();
+            console.log('Matakuliah dengan id_Matakuliah' + id_matakuliah + 'telah terhapus');
+            // next();
         });
         db.close();
     }
