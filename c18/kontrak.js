@@ -6,36 +6,37 @@ class Kontrak {
         let db = new sqlite3.Database('../c15/university.db');
         let sql = 'SELECT * FROM kontrak';
         this.table = new Table({
-            head: ['id_kontrak', 'nama_mk'],
-            colWidths: [40, 50]
+            head: ['id_kontrak', 'nim', 'nip', 'id_matakuliah', 'nilai', 'sks'],
+            colWidths: [10, 10, 20, 10, 10, 10]
         });
         db.all(sql, [], (err, rows) => {
             if (err) {
                 console.error(err);
             }
             for (let i = 0; i < rows.length; i++) {
-                this.table.push([rows[i].id_kontrak, rows[i].nama_mk]);
+                this.table.push([rows[i].id_kontrak, rows[i].nim, rows[i].nip, rows[i].id_matakuliah, rows[i].nilai, rows[i].sks]);
             }
             console.log(this.table.toString());
-            next();
+            // next();
         });
         db.close();
     }
     static cariKontrak(id_kontrak, next) {
         let db = new sqlite3.Database('../c15/university.db');
         let sql = `SELECT * FROM kontrak WHERE id_kontrak = ?`;
-        db.get(sql, [id_kontrak], (err, row) => {
+        console.log(sql, id_kontrak);
+        db.get(sql, [id_kontrak], (err, rows) => {
             try {
                 this.table = new Table({
-                    head: ['id_kontrak', 'nama_mk'],
-                    colWidths: [40, 50]
+                    head: ['id_kontrak', 'nim', 'nip', 'id_matakuliah', 'nilai', 'sks'],
+                    colWidths: [10, 10, 20, 10, 10, 10]
                 });
-                this.table.push([row.id_kontrak, row.nama_mk, row.alamat, row.kontrak, row.birthdate]);
+                this.table.push([rows.id_kontrak, rows.nim, rows.nip, rows.id_matakuliah, rows.nilai, rows.sks]);
                 console.log(this.table.toString());
             } catch (e) {
-                console.log(`dosen dengan id_kontrak ` + id_kontrak + ` tidak terdaftar`);
+                console.log(`mahasiswa dengan id_kontrak ` + id_kontrak + ` tidak terdaftar`);
             }
-            next();
+            // next();
         })
         db.close();
     }
@@ -49,18 +50,18 @@ class Kontrak {
             }
             // console.log("A row has been successfully inserted.");
             this.table = new Table({
-                head: ['id_kontrak', 'nama_mk'],
-                colWidths: [40, 50]
+                head: ['id_kontrak', 'nim', 'nip', 'id_matakuliah', 'nilai', 'sks'],
+                colWidths: [10, 10, 20, 10, 10, 10]
             });
             db.all(sql2, [], (err, rows) => {
                 if (err) {
                     console.error(err);
                 }
                 for (let i = 0; i < rows.length; i++) {
-                    this.table.push([rows[i].id_kontrak, rows[i].nama_mk]);
+                    this.table.push([rows[i].id_kontrak, rows[i].nim, rows[i].nip, rows[i].id_matakuliah, rows[i].nilai, rows[i].sks]);
                 }
                 console.log(this.table.toString());
-                next();
+                // next();
             })
         })
         db.close();
@@ -73,10 +74,23 @@ class Kontrak {
                 console.error(err.message);
             }
             console.log('Kontrak dengan id_kontrak' + id_kontrak + 'telah terhapus');
-            next();
+            // next();
         });
         db.close();
     }
+    static updateNilai(nilai,id_kontrak) { 
+    let db = new sqlite3.Database('../c15/university.db');
+    let sql = 'UPDATE kontrak SET nilai = ? WHERE id_kontrak = ?';
+    // let sql2 = `SELECT * FROM kontrak`;
+    db.run(sql,[id_kontrak,nilai], (err) => {
+        if (err){
+            console.error(err.message);
+        }
+        console.log('nilai dengan id kontrak' + id_kontrak + 'dan nilai '+ nilai + ' telah berhasil di update');
+    })
+    }
 }
+
+
 
 export { Kontrak };

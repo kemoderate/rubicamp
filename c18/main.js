@@ -88,6 +88,9 @@ silahkan pilih opsi di bawah ini :
                 break;
 
             case '6':
+                printPembatas();
+                console.log('Anda telah Keluar')
+                printPembatas();
                 process.exit(0)
                 break;
 
@@ -352,9 +355,9 @@ function menuMatakuliah() {
                 printPembatas();
                 // console.log("detail Matakuliah :")
                 rl.question("masukkan Kode Matakuliah : ", (answer) => {
-                    let DosAnswer = answer;
-                    DosAnswer.toLowerCase();
-                    Matakuliah.cariMatakuliah(DosAnswer, () => {
+                    let MKAnswer = answer;
+                    MKAnswer.toLowerCase();
+                    Matakuliah.cariMatakuliah(MKAnswer, () => {
 
                         printPembatas();
                     }); menuMatakuliah();
@@ -368,21 +371,23 @@ function menuMatakuliah() {
 
 
 
-                rl.question("NIP : ", (answer1) => {
-                    let nip = answer1;
+                rl.question("ID matkul : ", (answer1) => {
+                    let idmk = answer1;
                     rl.question("nama_Matakuliah : ", (answer2) => {
-                        let namados = answer2;
-
-                        Matakuliah.addMatakuliah(nip, namados, () => {
+                        let namamk = answer2;
+                        rl.question("masukkan sks : ", (answer3) =>{
+                        let sksmk = answer3;
+                        Matakuliah.addMatakuliah(idmk, namamk,sksmk, () => {
                             printPembatas();
 
                         }); menuMatakuliah();
-                    })
+                    });
+                    });
                 })
                 break;
             case '4':
                 printPembatas();
-                rl.question('Masukkan NIP Matakuliah yang akan di hapus : ', (answer) => {
+                rl.question('Masukkan ID Matakuliah yang akan di hapus : ', (answer) => {
                     let idjur = answer;
 
                     Matakuliah.deleteMatakuliah(idjur, () => {
@@ -410,7 +415,8 @@ function menuKontrak() {
 [2] Cari Kontrak
 [3] Tambah Kontrak
 [4] Hapus Kontrak
-[5] Kembali`);
+[5] Update Nilai
+[6] Kembali`);
     printPembatas();
     rl.question("Masukkan salah satu nomor dari opsi di atas: ", (answer) => {
         // let mahasiswa = new Mahasiswa();
@@ -424,10 +430,10 @@ function menuKontrak() {
             case '2':
                 printPembatas();
                 // console.log("detail Kontrak :")
-                rl.question("masukkan Kode Kontrak : ", (answer) => {
-                    let DosAnswer = answer;
-                    DosAnswer.toLowerCase();
-                    Kontrak.cariKontrak(DosAnswer, () => {
+                rl.question("masukkan id kontrak mahasiswa : ", (answer) => {
+                    let KAnswer = answer;
+                    KAnswer.toLowerCase();
+                    Kontrak.cariKontrak(KAnswer, () => {
 
                         printPembatas();
                     }); menuKontrak();
@@ -441,12 +447,12 @@ function menuKontrak() {
 
 
 
-                rl.question("NIP : ", (answer1) => {
-                    let nip = answer1;
+                rl.question("No Kontrak : ", (answer1) => {
+                    let noktrk = answer1;
                     rl.question("nama_Kontrak : ", (answer2) => {
-                        let namados = answer2;
+                        let namaktrk = answer2;
 
-                        Kontrak.addKontrak(nip, namados, () => {
+                        Kontrak.addKontrak(noktrk, namaktrk, () => {
                             printPembatas();
 
                         }); menuKontrak();
@@ -455,7 +461,7 @@ function menuKontrak() {
                 break;
             case '4':
                 printPembatas();
-                rl.question('Masukkan NIP Kontrak yang akan di hapus : ', (answer) => {
+                rl.question('Masukkan id Kontrak yang akan di hapus : ', (answer) => {
                     let idjur = answer;
 
                     Kontrak.deleteKontrak(idjur, () => {
@@ -465,7 +471,20 @@ function menuKontrak() {
                     menuKontrak();
                 })
                 break;
-            case '5':
+
+                case '5':
+                printPembatas();
+                rl.question('Masukkan id yang akan dirubah nilainya : ',(answer1)=>{
+                    let IDnilai = answer1;
+                    rl.question('tulis nilai yang baru :' ,(answer2)=>{
+                        let nilaiBaru = answer2;
+                        Kontrak.updateNilai(IDnilai,nilaiBaru, () => {
+                            printPembatas();
+                        }); menuKontrak();
+                    });
+                });
+                    break;
+            case '6':
                 mainMenu();
                 break;
             default:
