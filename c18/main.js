@@ -114,10 +114,9 @@ function menuMahasiswa() {
         // let mahasiswa = new Mahasiswa();
         switch (answer) {
             case '1':
-                printPembatas();
-                Mahasiswa.viewMahasiswa();
-                printPembatas();
-                menuMahasiswa();
+                Mahasiswa.viewMahasiswa(() => {
+                    menuMahasiswa();
+                });
                 break;
             case '2':
                 printPembatas();
@@ -126,9 +125,9 @@ function menuMahasiswa() {
                     let nimAnswer = answer;
                     nimAnswer.toLowerCase();
                     Mahasiswa.cariMahasiswa(nimAnswer, () => {
-
-                        printPembatas();
-                    }); menuMahasiswa();
+                        menuMahasiswa();
+                        // printPembatas();
+                    });
                 });
                 break;
 
@@ -155,9 +154,8 @@ function menuMahasiswa() {
                                     let umurmhs = answer5;
 
                                     Mahasiswa.addMahasiswa(nimmhs, namamhs, alamatmhs, jurusanmhs, umurmhs, () => {
-                                        printPembatas();
-
-                                    }); menuMahasiswa();
+                                        menuMahasiswa();
+                                    });
                                 })
                             })
                         })
@@ -170,10 +168,10 @@ function menuMahasiswa() {
                     let nimmhs = answer;
 
                     Mahasiswa.deleteMahasiswa(nimmhs, () => {
-
+                        menuMahasiswa();
                     });
-                    printPembatas();
-                    menuMahasiswa();
+                    // printPembatas();
+
                 })
                 break;
             case '5':
@@ -200,10 +198,12 @@ function menuJurusan() {
         // let mahasiswa = new Mahasiswa();
         switch (answer) {
             case '1':
-                printPembatas();
-                Jurusan.viewJurusan();
-                printPembatas();
-                menuJurusan();
+                // printPembatas();
+                Jurusan.viewJurusan(() => {
+                    menuJurusan();
+                });
+                // printPembatas();
+                // menuJurusan();
                 break;
             case '2':
                 printPembatas();
@@ -212,9 +212,8 @@ function menuJurusan() {
                     let jurAnswer = answer;
                     jurAnswer.toLowerCase();
                     Jurusan.cariJurusan(jurAnswer, () => {
-
-                        printPembatas();
-                    }); menuJurusan();
+                        menuJurusan();
+                    });
                 });
                 break;
 
@@ -231,9 +230,9 @@ function menuJurusan() {
                         let namajur = answer2;
 
                         Jurusan.addJurusan(idjur, namajur, () => {
-                            printPembatas();
+                            menuJurusan();
 
-                        }); menuJurusan();
+                        });
                     })
                 })
                 break;
@@ -243,10 +242,8 @@ function menuJurusan() {
                     let idjur = answer;
 
                     Jurusan.deleteJurusan(idjur, () => {
-
+                        menuJurusan();
                     });
-                    printPembatas();
-                    menuJurusan();
                 })
                 break;
             case '5':
@@ -273,10 +270,9 @@ function menuDosen() {
         // let mahasiswa = new Mahasiswa();
         switch (answer) {
             case '1':
-                printPembatas();
-                Dosen.viewDosen();
-                printPembatas();
-                menuDosen();
+                Dosen.viewDosen(() => {
+                    menuDosen();
+                });
                 break;
             case '2':
                 printPembatas();
@@ -285,9 +281,8 @@ function menuDosen() {
                     let DosAnswer = answer;
                     DosAnswer.toLowerCase();
                     Dosen.cariDosen(DosAnswer, () => {
-
-                        printPembatas();
-                    }); menuDosen();
+                        menuDosen();
+                    });
                 });
                 break;
 
@@ -304,9 +299,8 @@ function menuDosen() {
                         let namados = answer2;
 
                         Dosen.addDosen(nip, namados, () => {
-                            printPembatas();
-
-                        }); menuDosen();
+                            menuDosen();
+                        });
                     })
                 })
                 break;
@@ -316,10 +310,8 @@ function menuDosen() {
                     let idjur = answer;
 
                     Dosen.deleteDosen(idjur, () => {
-
+                        menuDosen();
                     });
-                    printPembatas();
-                    menuDosen();
                 })
                 break;
             case '5':
@@ -346,10 +338,9 @@ function menuMatakuliah() {
         // let mahasiswa = new Mahasiswa();
         switch (answer) {
             case '1':
-                printPembatas();
-                Matakuliah.viewMatakuliah();
-                printPembatas();
-                menuMatakuliah();
+                Matakuliah.viewMatakuliah(() => {
+                    menuMatakuliah();
+                });
                 break;
             case '2':
                 printPembatas();
@@ -358,9 +349,9 @@ function menuMatakuliah() {
                     let MKAnswer = answer;
                     MKAnswer.toLowerCase();
                     Matakuliah.cariMatakuliah(MKAnswer, () => {
-
-                        printPembatas();
-                    }); menuMatakuliah();
+                        menuMatakuliah();
+                        // printPembatas();
+                    });
                 });
                 break;
 
@@ -375,13 +366,13 @@ function menuMatakuliah() {
                     let idmk = answer1;
                     rl.question("nama_Matakuliah : ", (answer2) => {
                         let namamk = answer2;
-                        rl.question("masukkan sks : ", (answer3) =>{
-                        let sksmk = answer3;
-                        Matakuliah.addMatakuliah(idmk, namamk,sksmk, () => {
-                            printPembatas();
+                        rl.question("masukkan sks : ", (answer3) => {
+                            let sksmk = answer3;
+                            Matakuliah.addMatakuliah(idmk, namamk, sksmk, () => {
+                                printPembatas();
 
-                        }); menuMatakuliah();
-                    });
+                            }); menuMatakuliah();
+                        });
                     });
                 })
                 break;
@@ -391,10 +382,10 @@ function menuMatakuliah() {
                     let idjur = answer;
 
                     Matakuliah.deleteMatakuliah(idjur, () => {
-
+                        menuMatakuliah();
                     });
-                    printPembatas();
-                    menuMatakuliah();
+                    // printPembatas();
+
                 })
                 break;
             case '5':
@@ -422,10 +413,9 @@ function menuKontrak() {
         // let mahasiswa = new Mahasiswa();
         switch (answer) {
             case '1':
-                printPembatas();
-                Kontrak.viewKontrak();
-                printPembatas();
-                menuKontrak();
+                Kontrak.viewKontrak(() => {
+                    menuKontrak();
+                });
                 break;
             case '2':
                 printPembatas();
@@ -434,9 +424,9 @@ function menuKontrak() {
                     let KAnswer = answer;
                     KAnswer.toLowerCase();
                     Kontrak.cariKontrak(KAnswer, () => {
-
+                        menuKontrak();
                         printPembatas();
-                    }); menuKontrak();
+                    });
                 });
                 break;
 
@@ -453,9 +443,9 @@ function menuKontrak() {
                         let namaktrk = answer2;
 
                         Kontrak.addKontrak(noktrk, namaktrk, () => {
-                            printPembatas();
+                            menuKontrak();
 
-                        }); menuKontrak();
+                        });
                     })
                 })
                 break;
@@ -465,25 +455,23 @@ function menuKontrak() {
                     let idjur = answer;
 
                     Kontrak.deleteKontrak(idjur, () => {
-
+                        menuKontrak();
                     });
-                    printPembatas();
-                    menuKontrak();
                 })
                 break;
 
-                case '5':
+            case '5':
                 printPembatas();
-                rl.question('Masukkan id yang akan dirubah nilainya : ',(answer1)=>{
+                rl.question('Masukkan id yang akan dirubah nilainya : ', (answer1) => {
                     let IDnilai = answer1;
-                    rl.question('tulis nilai yang baru :' ,(answer2)=>{
+                    rl.question('tulis nilai yang baru :', (answer2) => {
                         let nilaiBaru = answer2;
-                        Kontrak.updateNilai(IDnilai,nilaiBaru, () => {
-                            printPembatas();
-                        }); menuKontrak();
+                        Kontrak.updateNilai(IDnilai, nilaiBaru, () => {
+                            menuKontrak();
+                        });
                     });
                 });
-                    break;
+                break;
             case '6':
                 mainMenu();
                 break;
