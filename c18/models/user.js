@@ -1,13 +1,10 @@
 import { db } from "./connect.js"
 
 export default class User {
-   static username(next){
+   static username(answer,next){
         db.all('SELECT * FROM users WHERE username = ?', [answer], (err, rows) => {
-            if (err) throw err 
-            console.log(
-                "username tidak ditemukan"
-            );
-            next(rows)
-    })
+            if (err) throw err;
+            next(rows) 
+    });
 }
 }

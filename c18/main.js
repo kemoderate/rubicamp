@@ -1,4 +1,4 @@
-import readline from 'readline';
+
 import sqlite3 from 'sqlite3';
 import { Mahasiswa } from "./mahasiswa.js";
 import { Jurusan } from './jurusan.js';
@@ -6,184 +6,27 @@ import { Dosen } from './dosen.js';
 import { Matakuliah } from './matakuliah.js';
 import { Kontrak } from './kontrak.js';
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
 
 
-function printPembatas() {
-    console.log('===============================================')
-}
+
+
 
 function Awal() {
-    printPembatas()
-    console.log('Welcome to Universitas Pendidikan Indonesia');
-    console.log('Jl. Dr. Setiabudi no. 255')
-    printPembatas()
+
     username()
 }
 
 function username() {
-    rl.question('username: ', answer => {
-        let db = new sqlite3.Database('../c15/university.db');
-        db.all('SELECT * FROM users WHERE username = ?', [answer], (err, rows) => {
-            if (err) throw err
-            if (rows.length == 0) {
-                console.log('username not found')
-                username()
-            } else {
-                password(rows[0])
-            }
-
-        })
-    })
+   
 }
 
 function password(user) {
-    rl.question('password: ', answer => {
-        if (user.password === answer) {
-            printPembatas()
-            console.log(`welcome ${user.username}. Your access level is : ${user.roles}`)
-            printPembatas()
-            mainMenu()
-        } else {
-            console.log('password salah')
-            password(user)
-        }
-    })
+    
 }
 
-function mainMenu() {
-    console.log(`
-silahkan pilih opsi di bawah ini :
-[1] Mahasiswa
-[2] Jurusan
-[3] Dosen
-[4] Mata Kuliah
-[5] Kontrak
-[6] Keluar
-    `)
-    printPembatas()
-    rl.question('masukkan salah satu no. dari opsi di atas: ', answer => {
-        switch (answer) {
-            case '1':
-                menuMahasiswa();
-                break;
-
-            case '2':
-                menuJurusan();
-                break;
-
-            case '3':
-                menuDosen();
-                break;
-
-            case '4':
-                menuMatakuliah();
-                break;
-
-            case '5':
-                menuKontrak();
-                break;
-
-            case '6':
-                printPembatas();
-                console.log('Anda telah Keluar')
-                printPembatas();
-                process.exit(0)
-                break;
-
-            default:
-                mainMenu();
-                break;
-        }
-    })
-}
-
-function menuMahasiswa() {
-    printPembatas();
-    console.log(`Silahkan pilih opsi di bawah ini:
-[1] Daftar Mahasiswa
-[2] Cari Mahasiswa
-[3] Tambah Mahasiswa
-[4] Hapus Mahasiswa
-[5] Kembali`);
-    printPembatas();
-    rl.question("Masukkan salah satu nomor dari opsi di atas: ", (answer) => {
-        // let mahasiswa = new Mahasiswa();
-        switch (answer) {
-            case '1':
-                Mahasiswa.viewMahasiswa(() => {
-                    menuMahasiswa();
-                });
-                break;
-            case '2':
-                printPembatas();
-                // console.log("detail mahasiswa :")
-                rl.question("masukkan nim mahasiswa : ", (answer) => {
-                    let nimAnswer = answer;
-                    nimAnswer.toLowerCase();
-                    Mahasiswa.cariMahasiswa(nimAnswer, () => {
-                        menuMahasiswa();
-                        // printPembatas();
-                    });
-                });
-                break;
-
-            case '3':
-                printPembatas();
-                Mahasiswa.viewMahasiswa();
-                console.log('lengkapi data di bawah ini :')
 
 
 
-                rl.question("nim : ", (answer1) => {
-                    let nimmhs = answer1;
-                    rl.question("nama : ", (answer2) => {
-                        let namamhs = answer2;
-
-                        rl.question("alamat : ", (answer3) => {
-                            let alamatmhs = answer3;
-
-                            Jurusan.viewJurusan();
-                            rl.question("jurusan : ", (answer4) => {
-                                let jurusanmhs = answer4;
-
-                                rl.question("umur : ", (answer5) => {
-                                    let umurmhs = answer5;
-
-                                    Mahasiswa.addMahasiswa(nimmhs, namamhs, alamatmhs, jurusanmhs, umurmhs, () => {
-                                        menuMahasiswa();
-                                    });
-                                })
-                            })
-                        })
-                    })
-                })
-                break;
-            case '4':
-                printPembatas();
-                rl.question('Masukkan NIM yang akan di hapus : ', (answer) => {
-                    let nimmhs = answer;
-
-                    Mahasiswa.deleteMahasiswa(nimmhs, () => {
-                        menuMahasiswa();
-                    });
-                    // printPembatas();
-
-                })
-                break;
-            case '5':
-                mainMenu();
-                break;
-            default:
-                menuMahasiswa();
-                break;
-        }
-        // menuMahasiswa();
-    });
-}
 
 function menuJurusan() {
     printPembatas();

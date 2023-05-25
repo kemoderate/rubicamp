@@ -1,75 +1,65 @@
 
-export default class MahasiswaController {
 
-static menuJurusan() {
-  printPembatas();
-  console.log(`Silahkan pilih opsi di bawah ini:
-[1] Daftar Jurusan
-[2] Cari Jurusan
-[3] Tambah Jurusan
-[4] Hapus Jurusan
-[5] Kembali`);
-  printPembatas();
-  rl.question("Masukkan salah satu nomor dari opsi di atas: ", (answer) => {
-      // let mahasiswa = new Mahasiswa();
-      switch (answer) {
+export default class JurusanController {
+    static menuJurusan() {
+      printPembatas();
+      console.log(`Silahkan pilih opsi di bawah ini:
+      [1] Daftar Jurusan
+      [2] Cari Jurusan
+      [3] Tambah Jurusan
+      [4] Hapus Jurusan
+      [5] Kembali`);
+      printPembatas();
+      rl.question("Masukkan salah satu nomor dari opsi di atas: ", (answer) => {
+        switch (answer) {
           case '1':
-              // printPembatas();
-              Jurusan.viewJurusan(() => {
-                  menuJurusan();
-              });
-              // printPembatas();
-              // menuJurusan();
-              break;
+            JurusanModel.viewJurusan((rows) => {
+              printMahasiswa(rows);
+              MahasiswaController.menuJurusan();
+            });
+            break;
           case '2':
-              printPembatas();
-              // console.log("detail Jurusan :")
-              rl.question("masukkan Kode Jurusan : ", (answer) => {
-                  let jurAnswer = answer;
-                  jurAnswer.toLowerCase();
-                  Jurusan.cariJurusan(jurAnswer, () => {
-                      menuJurusan();
-                  });
+            printPembatas();
+            rl.question("Masukkan id Jurusan: ", (answer) => {
+              let nimAnswer = answer.toLowerCase();
+              MahasiswaModel.cariMahasiswa(nimAnswer, (row) => {
+                if (row) {
+                  printMahasiswa([row]);
+                } else {
+                  console.log(`Mahasiswa dengan nim ${nimAnswer} tidak ditemukan`);
+                }
+                MahasiswaController.menuMahasiswa();
               });
-              break;
-
+            });
+            break;
           case '3':
-              printPembatas();
-              Jurusan.viewJurusan();
-              console.log('lengkapi data di bawah ini :')
-
-
-
-              rl.question("id_jurusan : ", (answer1) => {
-                  let idjur = answer1;
-                  rl.question("nama_jurusan : ", (answer2) => {
-                      let namajur = answer2;
-
-                      Jurusan.addJurusan(idjur, namajur, () => {
-                          menuJurusan();
-
-                      });
-                  })
-              })
-              break;
+            printPembatas();
+            rl.question("Masukkan data mahasiswa (nim, nama, alamat, jurusan, tanggallahir) dipisahkan oleh koma: ", (answer) => {
+              const [nim, nama, alamat, jurusan, tanggallahir] = answer.split(",").map((item) => item.trim());
+              MahasiswaModel.addMahasiswa(nim, nama, alamat, jurusan, tanggallahir, () => {
+                console.log("Mahasiswa berhasil ditambahkan");
+                MahasiswaController.menuMahasiswa();
+              });
+            });
+            break;
           case '4':
-              printPembatas();
-              rl.question('Masukkan Jurusan yang akan di hapus : ', (answer) => {
-                  let idjur = answer;
-
-                  Jurusan.deleteJurusan(idjur, () => {
-                      menuJurusan();
-                  });
-              })
-              break;
+            printPembatas();
+            rl.question("Masukkan NIM mahasiswa yang akan dihapus: ", (answer) => {
+              const nim = answer.trim();
+              MahasiswaModel.deleteMahasiswa(nim, () => {
+                console.log(`Mahasiswa dengan nim ${nim} telah dihapus`);
+                MahasiswaController.menuMahasiswa();
+              });
+            });
+            break;
           case '5':
-              mainMenu();
-              break;
+            UserController.mainMenu();
+            break;
           default:
-              menuJurusan();
-              break;
-      }
-      // menuMahasiswa();
-  });
-}
-}
+            MahasiswaController.menuMahasiswa();
+            break;
+        }
+      });
+    }
+  }
+  

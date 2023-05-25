@@ -1,5 +1,7 @@
 import { Awal, printPembatas, rl } from "../views/util.js";
 import User from "../models/user.js";
+import MahasiswaController from "./mahasiswa.js";
+// import JurusanController from "./jurusan.js";
 
 export default class UserController {
 
@@ -9,13 +11,13 @@ export default class UserController {
 
     }
     static askUsername() {
-        rl.question('username: ', answer => {
-            User.username((rows) => {
+        rl.question('username: ', (answer) => {
+            User.username(answer,(rows) => {
                 if (rows.length == 0) {
                     console.log('username not found')
                     UserController.askUsername()
                 } else {
-                    password(rows[0])
+                   UserController.askPassword(rows[0])
                 }
             })
         })
@@ -50,11 +52,11 @@ export default class UserController {
         rl.question('masukkan salah satu no. dari opsi di atas: ', answer => {
             switch (answer) {
                 case '1':
-                    menuMahasiswa();
+                   MahasiswaController.menuMahasiswa();
                     break;
 
                 case '2':
-                    menuJurusan();
+                    // JurusanController.menuJurusan();
                     break;
 
                 case '3':
