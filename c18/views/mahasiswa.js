@@ -1,10 +1,12 @@
 import Table from 'cli-table';
 
-export function printPembatas() {
+export default class MahasiswaView {
+
+static printPembatas() {
   console.log("===========================================");
 }
 
-export function printMahasiswa(rows) {
+static daftarMahasiswa(rows) {
   const table = new Table({
     head: ['nim', 'nama', 'alamat', 'jurusan', 'tanggallahir'],
     colWidths: [10, 10, 20, 10, 20]
@@ -15,4 +17,6 @@ export function printMahasiswa(rows) {
   });
 
   console.log(table.toString());
+  }
+
 }

@@ -1,13 +1,16 @@
 import Table from 'cli-table';
 
-export function printPembatas() {
+
+export default class JurusanView {
+
+ static printPembatas() {
   console.log("===========================================");
 }
 
-export function printJurusan(rows) {
+ static daftarJurusan(rows) {
   const table = new Table({
-    head: ['id_jurusan', 'nama_jurusan'],
-    colWidths: [10, 20]
+    head: ['id jurusan', 'nama jurusan'],
+    colWidths: [30, 20]
   });
 
   rows.forEach((row) => {
@@ -15,4 +18,6 @@ export function printJurusan(rows) {
   });
 
   console.log(table.toString());
+}
+
 }

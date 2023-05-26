@@ -1,7 +1,10 @@
 import { Awal, printPembatas, rl } from "../views/util.js";
 import User from "../models/user.js";
 import MahasiswaController from "./mahasiswa.js";
-// import JurusanController from "./jurusan.js";
+import JurusanController from "./jurusan.js";
+import DosenController from "./dosen.js";
+import MatakuliahController from "./matakuliah.js";
+import KontrakController from "./kontrak.js";
 
 export default class UserController {
 
@@ -56,19 +59,19 @@ export default class UserController {
                     break;
 
                 case '2':
-                    // JurusanController.menuJurusan();
+                   JurusanController.menuJurusan();
                     break;
 
                 case '3':
-                    menuDosen();
+                    DosenController.menuDosen();
                     break;
 
                 case '4':
-                    menuMatakuliah();
+                    MatakuliahController.menuMatakuliah();
                     break;
 
                 case '5':
-                    menuKontrak();
+                    KontrakController.menuKontrak();
                     break;
 
                 case '6':

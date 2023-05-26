@@ -1,6 +1,10 @@
-
+import { rl,printPembatas } from "../views/util.js";
+import UserController from "./user.js";
+import JurusanModel from "../models/jurusan.js";
+import JurusanView from "../views/jurusan.js";
 
 export default class JurusanController {
+
     static menuJurusan() {
       printPembatas();
       console.log(`Silahkan pilih opsi di bawah ini:
@@ -14,41 +18,55 @@ export default class JurusanController {
         switch (answer) {
           case '1':
             JurusanModel.viewJurusan((rows) => {
-              printMahasiswa(rows);
-              MahasiswaController.menuJurusan();
+             JurusanView.daftarJurusan(rows);
+             JurusanController.menuJurusan();
             });
             break;
           case '2':
             printPembatas();
             rl.question("Masukkan id Jurusan: ", (answer) => {
-              let nimAnswer = answer.toLowerCase();
-              MahasiswaModel.cariMahasiswa(nimAnswer, (row) => {
+              let JurAnswer = answer;
+              JurusanModel.cariJurusan(JurAnswer, (row) => {
                 if (row) {
-                  printMahasiswa([row]);
+                  JurusanView.daftarJurusan([row]);
                 } else {
-                  console.log(`Mahasiswa dengan nim ${nimAnswer} tidak ditemukan`);
+                  console.log(`jurusan dengan ID ${JurAnswer} tidak ditemukan`);
                 }
-                MahasiswaController.menuMahasiswa();
+                JurusanController.menuJurusan();
               });
             });
             break;
           case '3':
             printPembatas();
-            rl.question("Masukkan data mahasiswa (nim, nama, alamat, jurusan, tanggallahir) dipisahkan oleh koma: ", (answer) => {
-              const [nim, nama, alamat, jurusan, tanggallahir] = answer.split(",").map((item) => item.trim());
-              MahasiswaModel.addMahasiswa(nim, nama, alamat, jurusan, tanggallahir, () => {
-                console.log("Mahasiswa berhasil ditambahkan");
-                MahasiswaController.menuMahasiswa();
-              });
-            });
-            break;
+            JurusanModel.viewJurusan((rows) => {
+              JurusanView.daftarJurusan(rows);
+              //  MahasiswaController.menuMahasiswa();
+                  console.log('lengkapi data di bawah ini :')
+  
+                  rl.question("id jurusan : ", (answer1) => {
+                      let idjur = answer1;
+                      rl.question("nama jurusan: ", (answer2) => {
+                          let namajur = answer2;
+  
+                                      JurusanModel.addJurusan(idjur, namajur, () => {
+                                        JurusanModel.viewJurusan((rows) => {
+                                          JurusanView.daftarJurusan(rows);
+                                        JurusanController.menuJurusan();
+
+                                  })   
+                              })
+                          })
+                      })
+                  })
+                  break;
+            
           case '4':
             printPembatas();
-            rl.question("Masukkan NIM mahasiswa yang akan dihapus: ", (answer) => {
+            rl.question("Masukkan ID jurusan yang akan dihapus: ", (answer) => {
               const nim = answer.trim();
-              MahasiswaModel.deleteMahasiswa(nim, () => {
-                console.log(`Mahasiswa dengan nim ${nim} telah dihapus`);
-                MahasiswaController.menuMahasiswa();
+              JurusanModel.deleteJurusan(nim, () => {
+                console.log(`Jurusan dengan id ${nim} telah dihapus`);
+                JurusanController.menuJurusan();
               });
             });
             break;
@@ -56,7 +74,7 @@ export default class JurusanController {
             UserController.mainMenu();
             break;
           default:
-            MahasiswaController.menuMahasiswa();
+            JurusanController.menuJurusan();
             break;
         }
       });
