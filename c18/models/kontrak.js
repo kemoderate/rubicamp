@@ -1,5 +1,5 @@
 import { db } from "./connect.js";
-
+import KontrakView from "../views/kontrak.js";
 
 export default class KontrakModel {
 
@@ -13,26 +13,17 @@ export default class KontrakModel {
             next(rows);
         });
     }
-    
-    static cariKontrak(id_kontrak, next) {
-        
-        let sql = `SELECT * FROM kontrak WHERE id_kontrak = ?`;
-        console.log(sql, id_kontrak);
-        db.get(sql, [id_kontrak], (err, rows) => {
-            try {
-                this.table = new Table({
-                    head: ['id_kontrak', 'nim', 'nip', 'id_matakuliah', 'nilai', 'sks'],
-                    colWidths: [10, 10, 20, 10, 10, 10]
-                });
-                this.table.push([rows.id_kontrak, rows.nim, rows.nip, rows.id_matakuliah, rows.nilai, rows.sks]);
-                console.log(this.table.toString());
-            } catch (e) {
-                console.log(`mahasiswa dengan id_kontrak ` + id_kontrak + ` tidak terdaftar`);
-            }
+
+    static cariKontrak(search_kontrak, next) {
+        const sql = `SELECT * FROM kontrak WHERE kontrak.NIM LIKE '%${search_kontrak}%'`;
+        db.all(sql, (err, rows) => {
+            if (err) throw err;
+            KontrakView.cariKontrak(rows, search_kontrak)
             next();
-        })
-        
+        });
     }
+
+
     static addKontrak(id_kontrak, nama_mk, next) {
         
         let sql = `INSERT INTO kontrak(id_kontrak,nama_mk) VALUES (?,?)`;
