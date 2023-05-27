@@ -23,6 +23,22 @@ export default class KontrakModel {
         });
     }
 
+    static detailKontrak(detail_kontrak, next) {
+        const sql = `
+          SELECT kontrak.id_kontrak, matakuliah.nama_MK, kontrak.nilai
+          FROM kontrak
+          INNER JOIN matakuliah ON kontrak.id_matakuliah = matakuliah.id_matakuliah
+          WHERE kontrak.NIM LIKE '%${detail_kontrak}%'
+        `;
+      
+        db.all(sql, (err, rows) => {
+          if (err) throw err;
+          KontrakView.cetakKontrak(rows);
+          KontrakView.PrintdetailKontrak(rows, detail_kontrak);
+          next();
+        });
+      }
+
 
     static addKontrak(nim, id_matakuliah,nip, next) {
         
@@ -42,25 +58,39 @@ export default class KontrakModel {
             if (err) {
                 console.error(err.message);
             }
-            console.log('Kontrak dengan id_kontrak' + id_kontrak + 'telah terhapus');
+            console.log('Kontrak dengan id' + id_kontrak + 'telah terhapus');
             next();
         });
         
     }
 
     
-    static updateNilai(nilai,id_kontrak) {
-        
-    let sql = 'UPDATE kontrak SET nilai = ? WHERE id_kontrak = ?';
-    // let sql2 = `SELECT * FROM kontrak`;
-    db.run(sql,[id_kontrak,nilai], (err) => {
-        if (err){
-            console.error(err.message);
+    static updateNilai(nilai,id_kontrak,next) { 
+        let sql = 'UPDATE kontrak SET nilai = ? WHERE id_kontrak = ?';
+        // let sql2 = `SELECT * FROM kontrak`;
+        db.run(sql,[id_kontrak,nilai], (err) => {
+            if (err){
+                console.error(err.message);
+            }
+            console.log('nilai dengan id kontrak' + id_kontrak + 'dan nilai '+ nilai + ' telah berhasil di update');
+            next();
+        })
         }
-        console.log('nilai dengan id kontrak' + id_kontrak + 'dan nilai '+ nilai + ' telah berhasil di update');
-    })
     }
-}
+
+    // static updateNilai(nilai,id_kontrak) {
+        
+    // let sql = 'UPDATE kontrak SET nilai = ? WHERE id_kontrak = ? AND nim = ?' ;
+    // // let sql2 = `SELECT * FROM kontrak`;
+    // db.run(sql,[nilai,id_kontrak], (err) => {
+    //     if (err){
+    //         console.error(err.message);
+    //     }
+    //     console.log('nilai dengan id kontrak' + id_kontrak + 'dan nilai '+ nilai + ' telah berhasil di update');
+    // })
+    // // next();
+    // }
+
 
 
 
