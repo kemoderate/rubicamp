@@ -53,12 +53,12 @@ export default class MahasiswaController {
                   let alamatmhs = answer3;
 
                   JurusanModel.viewJurusan((rows) => {
-                    JurusanView.printJurusan(rows);
+                    JurusanView.daftarJurusan(rows);
 
                     rl.question("jurusan : ", (answer4) => {
                       let jurusanmhs = answer4;
 
-                      rl.question("umur : ", (answer5) => {
+                      rl.question("tanggal lahir : ", (answer5) => {
                         let umurmhs = answer5;
 
                         MahasiswaModel.addMahasiswa(nimmhs, namamhs, alamatmhs, jurusanmhs, umurmhs, () => {

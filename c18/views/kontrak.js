@@ -1,22 +1,24 @@
 import Table from 'cli-table';
 
 export default class KontrakView {
+  static cetakKontrak(rows) {
+    const table = new Table({
+      head: ['id_kontrak', 'nim', 'nama', 'nama_MK', 'nama dosen', 'nilai'],
+      colWidths: [20, 10, 20, 20, 20, 10],
+    });
 
-static printPembatas() {
-  console.log("===========================================");
-}
+    rows.forEach((row) => {
+      const formattedRow = [
+        row.id_kontrak || '',
+        row.nim || '',
+        row.nama || '',
+        row.nama_MK || '',
+        row.nama_dosen || '',
+        row.nilai || '',
+      ];
+      table.push(formattedRow);
+    });
 
-static daftarKontrak(rows) {
-  const table = new Table({
-    head: ['id_kontrak', 'nim', 'nip', 'id_matakuliah', 'nilai', 'sks'],
-    colWidths: [10, 10, 20, 10, 20, 10]
-  });
-
-  rows.forEach((rows) => {
-    table.push([rows.id_kontrak, rows.nim, rows.nip, rows.id_matakuliah, rows.nilai, rows.sks]);
-  });
-
-  console.log(table.toString());
+    console.log(table.toString());
   }
-
 }
