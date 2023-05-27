@@ -1,6 +1,7 @@
 import Table from 'cli-table';
 
 export default class KontrakView {
+  
   static cetakKontrak(rows) {
     const table = new Table({
       head: ['id_kontrak', 'nim', 'nama', 'nama_MK', 'nama dosen', 'nilai'],
@@ -43,4 +44,6 @@ export default class KontrakView {
         console.log(`Kontrak dengan NIM ${search_kontrak} tidak terdaftar`)
     }
 }
+
+
 }

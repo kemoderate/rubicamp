@@ -38,7 +38,7 @@ export default class KontrakController {
           MahasiswaModel.viewMahasiswa((rows) => {
             MahasiswaView.daftarMahasiswa(rows);
             rl.question("Masukkan NIM mahasiswa: ", (answer) => {
-              
+
               KontrakModel.cariKontrak(answer, (row) => {
                 if (row) {
                   KontrakView.cariKontrak(row);
@@ -51,30 +51,31 @@ export default class KontrakController {
           })
           break;
 
-          case '3':
-            MahasiswaModel.viewMahasiswa((rows) => {
-              MahasiswaView.daftarMahasiswa(rows);
-              console.log('lengkapi data di bawah ini :')
-  
+        case '3':
+          MahasiswaModel.viewMahasiswa((rows) => {
+            MahasiswaView.daftarMahasiswa(rows);
+            console.log('lengkapi data di bawah ini :')
+            
               rl.question("NIM : ", (answer1) => {
                 let noktrk = answer1;
                 MatakuliahModel.viewMatakuliah((rows) => {
                   MatakuliahView.daftarMatakuliah(rows);
-  
+
                   rl.question("kode MK : ", (answer2) => {
                     let namaktrk = answer2;
-  
+
                     DosenModel.viewDosen((rows) => {
                       DosenView.daftarDosen(rows);
                       rl.question("NIP dosen : ", (answer3) => {
                         let dosenktrk = answer3;
-  
+
                         KontrakModel.addKontrak(noktrk, namaktrk, dosenktrk, () => {
-                          KontrakView.masukKontrak((rows) => {
+                          KontrakModel.viewKontrak((rows) => {
                             console.log('kontrak telah di tambahkan')
-                            KontrakView.daftarKontrak(rows);
-                            KontrakController.menuKontrak();
-  
+                            KontrakView.cetakKontrak(rows);
+                              KontrakController.menuKontrak();
+                            
+
                           })
                         });
                       })
@@ -82,8 +83,8 @@ export default class KontrakController {
                   })
                 })
               })
-            })
-            break;
+          })
+          break;
 
 
         case '4':
@@ -99,16 +100,16 @@ export default class KontrakController {
 
         case '5':
           // KontrakModel.viewKontrak((rows) => { yg di comment belum beres
-          //   KontrakView.daftarKontrak(rows);
-            rl.question ('masukkan NIM mahasiswa yang akan di edit :',(answer1) => { 
-              let nimNilai = answer1;
+          //   KontrakView.cetakKontrak(rows);
+          rl.question('masukkan NIM mahasiswa yang akan di edit :', (answer1) => {
+            let nimNilai = answer1;
             rl.question('Masukkan id yang akan dirubah nilainya : ', (answer2) => {
               let IDnilai = answer2;
               rl.question('tulis nilai yang baru :', (answer3) => {
                 let nilaiBaru = answer3;
                 KontrakModel.updateNilai(IDnilai, nilaiBaru, () => {
                   KontrakModel.viewKontrak((rows) => {
-                    KontrakView.daftarKontrak(rows);
+                    KontrakView.cetakKontrak(rows);
                     KontrakController.menuKontrak();
                   })
                 });

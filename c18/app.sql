@@ -13,4 +13,4 @@ CREATE TABLE kontrak (
     FOREIGN KEY(nip) REFERENCES dosen(nip),
     FOREIGN KEY(id_matakuliah) REFERENCES matakuliah(id_matakuliah)
 
- 
+)

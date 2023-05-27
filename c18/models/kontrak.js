@@ -24,29 +24,14 @@ export default class KontrakModel {
     }
 
 
-    static addKontrak(id_kontrak, nama_mk, next) {
+    static addKontrak(nim, id_matakuliah,nip, next) {
         
-        let sql = `INSERT INTO kontrak(id_kontrak,nama_mk) VALUES (?,?)`;
-        let sql2 = `SELECT * FROM kontrak`;
-        db.run(sql, [id_kontrak, nama_mk], (err) => {
+        let sql = `INSERT INTO kontrak(nim, id_matakuliah,nip) VALUES (?,?,?)`;
+        db.run(sql, [nim, id_matakuliah,nip], (err) => {
             if (err) {
                 console.error(err.message);
             }
-            // console.log("A row has been successfully inserted.");
-            this.table = new Table({
-                head: ['id_kontrak', 'nim', 'nip', 'id_matakuliah', 'nilai', 'sks'],
-                colWidths: [10, 10, 20, 10, 10, 10]
-            });
-            db.all(sql2, [], (err, rows) => {
-                if (err) {
-                    console.error(err);
-                }
-                for (let i = 0; i < rows.length; i++) {
-                    this.table.push([rows[i].id_kontrak, rows[i].nim, rows[i].nip, rows[i].id_matakuliah, rows[i].nilai, rows[i].sks]);
-                }
-                console.log(this.table.toString());
-                next();
-            })
+            next();
         })
         
     }
@@ -62,6 +47,8 @@ export default class KontrakModel {
         });
         
     }
+
+    
     static updateNilai(nilai,id_kontrak) {
         
     let sql = 'UPDATE kontrak SET nilai = ? WHERE id_kontrak = ?';
